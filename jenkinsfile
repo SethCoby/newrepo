@@ -1,0 +1,41 @@
+pipeline {
+  agent any
+  
+  stages {
+    // stage('Checkout') {
+    //   steps {
+    //     // Checkout your source code repository
+    //     // Replace the placeholder values with your actual repository information
+    //     checkout([$class: 'GitSCM',
+    //               branches: [[name: '*/master']],
+    //               doGenerateSubmoduleConfigurations: false,
+    //               extensions: [],
+    //               submoduleCfg: [],
+    //               userRemoteConfigs: [[url: 'https://github.com/your/repository.git']]])
+    //   }
+    // }
+    
+    stage('Build') {
+      steps {
+        // Build your project
+        // Replace the build command with your actual build command
+        sh 'mvn clean package'
+      }
+    }
+    
+    stage('SonarQube Scan') {
+      environment {
+        // Define SonarQube server credentials
+        SONAR_TOKEN = credentials('sonarqube-token')
+      }
+      
+      steps {
+        // Run SonarQube scan
+        withSonarQubeEnv('SonarQube Server') {
+          // Replace the placeholder values with your actual SonarQube project key and name
+          sh "mvn sonar:sonar -Dsonar.projectKey=sema-webiste-scan -Dsonar.projectName=sema-webiste-scan -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_TOKEN}"
+        }
+      }
+    }
+  }
+}
