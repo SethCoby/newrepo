@@ -36,13 +36,13 @@ pipeline {
 
 //   stage ('Build Docker Image and Push To ECR') {
 //           steps {
-//               sh "/usr/bin/docker build . -t clixx-image:$VERSION "
+//               sh "/usr/bin/docker build . -t semasite-image:$VERSION "
 //           }
 //         }
 
 //   stage ('Starting Docker Image for Testing') {
 //           steps {
-//               sh "/usr/bin/docker run --name clixx-cont-$VERSION  -p 80:80 -d clixx-image:$VERSION"
+//               sh "/usr/bin/docker run --name semasite-cont-$VERSION  -p 80:80 -d semasite-image:$VERSION"
 //           }
 //         }
 
@@ -50,10 +50,10 @@ pipeline {
 //   stage ('Deployment Tear Down Prompt ') {
 //               steps {
 //                 script {
-//                 def userInput = input(id: 'confirm', message: 'Please Test CliXX Image Deployment. Should I delete now?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Tear Down App', name: 'confirm'] ])
+//                 def userInput = input(id: 'confirm', message: 'Please Test semasite Image Deployment. Should I delete now?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Tear Down App', name: 'confirm'] ])
 //              }
-//              sh " docker stop clixx-cont-$VERSION "
-//              sh " docker rm  clixx-cont-$VERSION "
+//              sh " docker stop semasite-cont-$VERSION "
+//              sh " docker rm  semasite-cont-$VERSION "
 //            }
 //         }
 
