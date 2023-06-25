@@ -16,7 +16,7 @@ pipeline {
         withSonarQubeEnv('SonarQubeScanner') {
             sh script: '/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarqube/bin/sonar-scanner', 
    returnStdout: true,
-   args: ['-Dsonar.projectKey=sema-webiste-scan']
+   label: ['-Dsonar.projectKey=sema-webiste-scan']
 
 
         //   sh " ${scannerHome}/bin/sonar-scanner \
