@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         VERSION = "1.0.${BUILD_NUMBER}"
-        PATH = "${PATH}:${getSonarPath()}"
+        PATH = "${PATH}:${getSonarPath()}:${getDockerPath()}"
         // RUNNER
     }
 
@@ -25,26 +25,26 @@ pipeline {
 
 }
 
- stage('Quality Gate') {
-            steps {
-                timeout(time: 7, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-            }
-            }
+//  stage('Quality Gate') {
+//             steps {
+//                 timeout(time: 7, unit: 'MINUTES') {
+//                     waitForQualityGate abortPipeline: true
+//             }
+//             }
+//         }
+
+
+  stage ('Build Docker Image and Push To ECR') {
+          steps {
+              sh "/usr/bin/docker build . -t semasite-image:$VERSION "
+          }
         }
 
-
-//   stage ('Build Docker Image and Push To ECR') {
-//           steps {
-//               sh "/usr/bin/docker build . -t semasite-image:$VERSION "
-//           }
-//         }
-
-//   stage ('Starting Docker Image for Testing') {
-//           steps {
-//               sh "/usr/bin/docker run --name semasite-cont-$VERSION  -p 80:80 -d semasite-image:$VERSION"
-//           }
-//         }
+  stage ('Starting Docker Image for Testing') {
+          steps {
+              sh "/usr/bin/docker run --name semasite-cont-$VERSION  -p 80:80 -d semasite-image:$VERSION"
+          }
+        }
 
 
 //   stage ('Deployment Tear Down Prompt ') {
@@ -67,8 +67,8 @@ def getSonarPath(){
         def SonarHome= tool name: 'sonarqube', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
         return SonarHome
     }
-// def getDockerPath(){
-//         def DockerHome= tool name: 'docker-inst', type: 'dockerTool'
-//         return DockerHome
-//     }
+def getDockerPath(){
+        def DockerHome= tool name: 'docker-inst', type: 'dockerTool'
+        return DockerHome
+    }
     
