@@ -36,13 +36,13 @@ pipeline {
 
   stage ('Build Docker Image and Push To ECR') {
           steps {
-              sh "/usr/bin/docker build . -t semasite-image:$VERSION "
+              sh "/usr/bin/docker build  --tag semasite-image:latest ."
           }
         }
 
   stage ('Starting Docker Image for Testing') {
           steps {
-              sh "/usr/bin/docker run --name semasite-cont-$VERSION  -p 80:80 -d semasite-image:$VERSION"
+              sh "/usr/bin/docker run --name semasite-cont-latest  -p 80:80 -d semasite-image:latest"
           }
         }
 
