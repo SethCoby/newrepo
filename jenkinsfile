@@ -17,7 +17,7 @@ pipeline {
         withSonarQubeEnv('SonarQubeScanner') {
           sh " ${scannerHome}/bin/sonar-scanner \
           -Dsonar.projectKey=sema-webiste-scan   \
-          -Dsonar.host.url=http://54.81.106.201:9000 \
+          -Dsonar.host.url=http://54.160.209.113:9000 \
           -Dsonar.login=${SONAR_TOKEN} "
         }
         }
